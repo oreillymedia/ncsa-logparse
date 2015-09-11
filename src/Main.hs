@@ -31,7 +31,7 @@ totalBytes logline = sum $ map byteSize logline
 
 
 readLogFile :: FilePath -> IO [BL.ByteString]
-readLogFile path = verifyFilePath path >> BL.readFile path >>= return . BL8.lines
+readLogFile path = verifyFilePath path >> BL.readFile path  >>= return . BL8.lines
 
 
 sumBytes :: (Num a) => (LogEntry -> a) -> [BL.ByteString] -> a
@@ -47,8 +47,8 @@ main = do
 	args <- execParser opts
 	logFile <- readLogFile (logPath args)
 	let totalByteCount = formatInteger $ sumBytes byteSize logFile
-	--let parsedLog = parseFileLines logFile
-	--let lineCount = formatInteger (length parsedLog)
-	--let totalByteCount = formatInteger (totalBytes parsedLog)
+	let parsedLog = parseFileLines logFile
+	let lineCount = formatInteger (length parsedLog)
+	let totalByteCount = formatInteger (totalBytes parsedLog)
 	putStrLn $ format "{0} valid lines in file. Requests total {1} bytes" ["0", totalByteCount]
 	return ()
