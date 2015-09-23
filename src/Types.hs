@@ -4,6 +4,15 @@ module Types where
 import Data.Word (Word8)
 import qualified Data.ByteString.Char8 as BC (ByteString)
 import Data.Time (ZonedTime)
+import Web.UAParser (OSResult, UAResult)
+
+
+-- |Possible log formats
+data Format = Common | Extended
+
+instance Show Format where
+	show Common   = "common"
+	show Extended = "extended"
 
 
 -- |IP Address
@@ -37,8 +46,10 @@ data ProtocolVersion = ProtocolVersion {
 } deriving (Show, Eq)
 
 
--- |A single log line
+
+-- |A single log line from an NCSA Common or Extended-formatted log
 data LogEntry = LogEntry {
+	logFormat  :: Format,
 	ip 		   :: IP,
 	identity   :: Maybe BC.ByteString,
 	userid     :: Maybe BC.ByteString,
@@ -48,11 +59,18 @@ data LogEntry = LogEntry {
 	proto      :: Maybe Protocol,
 	protoVer   :: ProtocolVersion,
 	status     :: Maybe Int,
-	byteSize   :: Int
+	byteSize   :: Int,
+	referrer   :: Maybe URL,
+	userAgent  :: Maybe BC.ByteString,
+	browser    :: Maybe UAResult,
+	platform   :: Maybe OSResult
 } deriving (Show)
+
+
 
 
 -- |A parsed log file (i.e. a list of line records)
 type Log = [LogEntry]
+
 
 

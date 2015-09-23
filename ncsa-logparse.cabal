@@ -56,6 +56,7 @@ executable ncsa-logparse
                        QuickCheck >= 2.7,
                        text-format-simple >= 1.1.0,
                        directory >= 1.2.3.0,
-                       split >= 0.2.2
+                       split >= 0.2.2,
+                       text >= 1.2.1.1
   hs-source-dirs:      src
   default-language:    Haskell2010

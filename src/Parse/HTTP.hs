@@ -69,3 +69,21 @@ parseRequestLine = fmap (,,,)
 	<*> (space *> parseURL)
 	<*> (space *> parseProtocol)
 	<*> (slash *> parseProtocolVersion <* quote)
+
+
+
+parseReferrer :: Parser (Maybe URL)
+parseReferrer = fmap refTest (quote *>takeTill (== '"') <* quote)
+	where refTest r = if (B8.length r == 0) then Nothing else Just r
+
+
+parseUserAgent :: Parser (Maybe B8.ByteString)
+parseUserAgent = do
+	_ <- quote
+	ua <- takeTill (== '"')
+	_ <- quote
+	let wrappedUA = if (B8.length ua == 0) then Nothing else Just ua
+	return wrappedUA
+
+
+

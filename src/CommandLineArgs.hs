@@ -1,4 +1,4 @@
-module CommandLineArgs (CommandLineOpts, logPath, opts, verbose) where
+module CommandLineArgs (CommandLineOpts, logPath, opts, verbose, parseAsCommon) where
 
 import Data.Version (showVersion)
 import Options.Applicative
@@ -56,3 +56,7 @@ opts = info (helper <*> parseOpts)
 	   <> progDesc "Parse a log file"
 	   <> header description )
 	where description = format "Parse an NCSA-compatible log file. Version {0}" [versionString]
+
+
+parseAsCommon :: CommandLineOpts -> Bool
+parseAsCommon args = (logFormat args) == NCSACommon
