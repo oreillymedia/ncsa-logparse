@@ -1,53 +1,45 @@
-import qualified Data.ByteString as B
-import qualified Data.ByteString.Lazy as BL
-import qualified Data.ByteString.Lazy.Char8 as BL8
-import Data.List (intercalate, nub)
-import Data.Maybe (catMaybes)
-import qualified Data.Text as T
-import Options.Applicative
+import Control.DeepSeq
+import Data.Attoparsec.ByteString.Char8
+import Data.List (intercalate)
+import Options.Applicative (execParser)
 import Text.Format (format)
-import Web.UAParser (osrFamily, uarFamily)
 
+
+import Analysis
 import CommandLineArgs
+import File
 import Parse.Log
 import Types
 import Utils
 
 
-lazyToStrict ::  BL8.ByteString -> B.ByteString
-lazyToStrict = B.concat . BL.toChunks
+
+chooseParsingFunction :: CommandLineOpts -> (Parser LogEntry)
+chooseParsingFunction args = case parseAsCommon args of
+	True  -> parseAsCommonLogLine
+	False -> parseAsExtendedLogLine
 
 
-readLogFile :: FilePath -> IO [BL.ByteString]
-readLogFile path = verifyFilePath path >> BL.readFile path  >>= return . BL8.lines
-
-
-sumBytes :: Log -> Int
-sumBytes commonLog = sum $ map byteSize commonLog
-
-
-uniqueOSFamilies :: Log -> [String]
-uniqueOSFamilies logEntries = map T.unpack allPlatforms
-	where
-		allPlatforms = nub $ map osrFamily $ catMaybes $ map platform logEntries
-
-
-uniqueBrowsers :: Log -> [String]
-uniqueBrowsers logEntries = map T.unpack allPlatforms
-	where
-		allPlatforms = nub $ map uarFamily $ catMaybes $ map browser logEntries
-
-
+getLog :: CommandLineOpts -> IO Log
+getLog args = do
+	logFile <- readLog (logPath args)
+	let parserChoice = chooseParsingFunction args
+	return $ parseFileLines parserChoice logFile
 
 
 main :: IO ()
 main = do
 	args <- execParser opts
-	logFile <- readLogFile (logPath args)
+	{--
+	logFile <- readLog (logPath args)
 	let parserChoice = chooseParsingFunction args
 	let parsedLog = parseFileLines parserChoice logFile
-	let totalByteCount = formatInteger $ sumBytes parsedLog
-	let allOS = intercalate ", " (uniqueBrowsers parsedLog)
-	let lineCount = formatInteger (length parsedLog)
-	putStrLn $ format "{0} valid lines in file. Requests total {1} bytes. All OS families: {2}" [lineCount, totalByteCount, allOS]
+	--}
+	lg <- getLog args
+	let totalByteCount = formatInteger $ sumBytes lg
+	let total404Count = formatInteger $ countNotFoundResponses lg
+	--let intThing = formatInteger $ countNotFoundResponses parsedLog
+	--let allOS = intercalate ", " (uniqueBrowsers parsedLog)
+	putStrLn $ format "Requests total {0} bytes. 404s: {1}" [totalByteCount, total404Count]
+	--putStrLn $ format "Thing: {0}" [intThing]
 	return ()
