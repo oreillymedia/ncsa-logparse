@@ -1,8 +1,9 @@
 module Types where
 
-import Data.Word (Word8)
+
 import qualified Data.ByteString.Char8 as BC (ByteString)
 import Data.Time (ZonedTime)
+import Data.Word (Word8)
 import Web.UAParser (OSResult, UAResult)
 
 
@@ -35,7 +36,12 @@ data Protocol = HTTP | HTTPS | FTP deriving (Show, Eq)
 data ProtocolVersion = ProtocolVersion {
 	majorVersion :: Int,
 	minorVersion :: Int
-} deriving (Show, Eq)
+} deriving (Eq)
+
+instance Show ProtocolVersion where
+	show (ProtocolVersion major minor)
+									 = show major ++ "."
+									++ show minor
 
 
 
