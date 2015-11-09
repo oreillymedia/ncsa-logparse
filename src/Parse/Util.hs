@@ -11,22 +11,16 @@ parseDigits :: (Read a, Num a, Eq a) => Int -> Parser a
 parseDigits n = (fst . head . readDec) <$> count n digit
 
 
--- |Build a parser for a single character.
-parseChar :: Char -> Parser Char
-parseChar c = satisfy isChar
-	where isChar = (\c' -> c == c')
-
-
 -- |Parse a slash character.
 slash :: Parser Char
-slash = parseChar '/'
+slash = char '/'
 
 
 -- |Parse a quote character.
 quote :: Parser Char
-quote = parseChar '"'
+quote = char '"'
 
 
 -- |Parse a period character.
 period :: Parser Char
-period = parseChar '.'
+period = char '.'

@@ -1,4 +1,4 @@
-module Parse.DateTime ( parseTimeAndDate ) where
+module Parse.DateTime ( monthNameToNumber, parseTimeAndDate, parseTZ, parseMonthName ) where
 
 import Control.Applicative
 import Data.Attoparsec.ByteString.Char8
@@ -40,6 +40,7 @@ parseTimeAndDate = do
 
 
 -- |Parse a ISO-8601 timezone string (e.g. -0700, +05, 09) into a TimeZone object
+-- FIXME: Add some sanity checking to make sure the offset isn't too big to be real: (-12:00 ≤ offset ≤ +14:00)
 parseTZ :: Parser TimeZone
 parseTZ = minutesToTimeZone <$> signed parseTZDigits
 	where parseTZDigits = liftA2 (+) ((* 60) <$> parseDigits 2) (parseDigits 2 <|> return 0)
@@ -48,7 +49,7 @@ parseTZ = minutesToTimeZone <$> signed parseTZDigits
 -- | A map from three-letter month names (case insensitive) to their numeric representation (e.g. "Jun" -> 6)
 monthMap :: Map.Map String Int
 monthMap = let monthNames = map ((map toLower) . snd) (months defaultTimeLocale)
-	in Map.fromList $ zip monthNames (iterate succ 1)
+	       in Map.fromList $ zip monthNames [1..]
 
 
 -- | Convert a three-letter month name (case-insensitive) to its numeric representation.
