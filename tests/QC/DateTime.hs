@@ -36,6 +36,6 @@ propTZParse =
 propMonthMap :: Bool
 propMonthMap = expected == actual
     where
-        monthNames = map snd (months defaultTimeLocale)
+        monthNames = map snd (months defaultTimeLocale) ++ ["smarch"]
         actual = map (monthNameToNumber) monthNames
-        expected =  map Just [1..12]
+        expected =  map Just [1..12] ++ [Nothing]
