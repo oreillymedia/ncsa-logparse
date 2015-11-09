@@ -26,7 +26,7 @@ import Types
 
 
 parseFileLines :: (Parser LogEntry) -> [BL.ByteString] -> Log
-parseFileLines p rawLogLines = rights $ map (parseFileLine p) rawLogLines
+parseFileLines parser rawLogLines = rights $ map (parseFileLine parser) rawLogLines
 
 
 parseFileLine :: (Parser LogEntry) -> BL.ByteString -> Either String LogEntry
@@ -40,7 +40,6 @@ expandUA :: Maybe B8.ByteString -> (Maybe UAResult, Maybe OSResult)
 expandUA ua = case ua of
 	Nothing    -> (Nothing, Nothing)
 	Just rawUA -> (parseUA rawUA, parseOS rawUA)
-
 
 
 parseAsCommonLogLine :: Parser LogEntry

@@ -1,7 +1,6 @@
 module Analysis where
 
 import Prelude hiding (filter, length, log, map, sum)
-
 import Data.List.Stream (filter, length, map, nub, sum)
 import qualified Data.Text as T
 import Web.UAParser
@@ -25,6 +24,7 @@ uniqueOSFamilies :: Log -> [String]
 uniqueOSFamilies log = map T.unpack allPlatforms
 	where
 		allPlatforms = nub $ map osrFamily $ catMaybes $ map platform log
+
 
 -- | Return a list of distinct Browsers in a log file.
 uniqueBrowsers :: Log -> [String]

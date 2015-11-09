@@ -1,17 +1,15 @@
-import Control.DeepSeq
 import Data.Attoparsec.ByteString.Char8
-import Data.List (intercalate)
+import qualified Data.ByteString.Lazy as BL
 import Options.Applicative (execParser)
-import Text.Format (format)
-
+import System.IO (hPutStrLn, stdout, stderr)
 
 import Analysis
+import Csv
 import CommandLineArgs
 import File
+import Parse.DateTime
 import Parse.Log
 import Types
-import Utils
-
 
 
 chooseParsingFunction :: CommandLineOpts -> (Parser LogEntry)
@@ -30,16 +28,8 @@ getLog args = do
 main :: IO ()
 main = do
 	args <- execParser opts
-	{--
-	logFile <- readLog (logPath args)
-	let parserChoice = chooseParsingFunction args
-	let parsedLog = parseFileLines parserChoice logFile
-	--}
-	lg <- getLog args
-	let totalByteCount = formatInteger $ sumBytes lg
-	let total404Count = formatInteger $ countNotFoundResponses lg
-	--let intThing = formatInteger $ countNotFoundResponses parsedLog
-	--let allOS = intercalate ", " (uniqueBrowsers parsedLog)
-	putStrLn $ format "Requests total {0} bytes. 404s: {1}" [totalByteCount, total404Count]
-	--putStrLn $ format "Thing: {0}" [intThing]
+	logData <- getLog args
+	let csv = toCSV logData
+	BL.hPut stdout csv
+	hPutStrLn stderr "Conversion to CSV completed."
 	return ()
