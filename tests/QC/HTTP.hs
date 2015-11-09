@@ -18,6 +18,7 @@ tests = [
 	, testProperty "propHTTPStatus" propHTTPStatus
 	, testProperty "propProtocol" propProtocol
 	, testProperty "propProtocolVersion" propProtocolVersion
+	, testProperty "propIPAddress" propIPAddress
   ]
 
 
@@ -55,3 +56,10 @@ propProtocolVersion =
 						["0.9", "1.0", "5.5", "10.23", "1.A"]
 						[ProtocolVersion 0 9, ProtocolVersion 1 0, ProtocolVersion 5 5, ProtocolVersion 10 23]
 						parseProtocolVersion
+
+propIPAddress :: Bool
+propIPAddress =
+					testParser
+					["A.B.C.D", "0.0.0", "192.168.1.1", "55.12.1.18", "127.0.0.1"]
+					[IP 192 168 1 1, IP 55 12 1 18, IP 127 0 0 1]
+					parseIP
