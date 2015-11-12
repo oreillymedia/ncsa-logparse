@@ -16,4 +16,4 @@ readLog path = verifyFilePath path >> BL.readFile path  >>= return . BL8.lines
 verifyFilePath :: FilePath -> IO ()
 verifyFilePath pth = do
 	fileExists <- doesFileExist pth
-	unless fileExists $ error ("ERROR: The file " ++ pth ++ " does not exist.") 
+	unless fileExists $ error ("ERROR: The file " ++ pth ++ " does not exist.")

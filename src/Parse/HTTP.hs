@@ -62,28 +62,6 @@ parseURL :: Parser URL
 parseURL = takeTill (== ' ')
 
 
--- |Parse the request line section of the log, e.g. "GET /apache_pb.gif HTTP/1.0"
-parseRequestLine :: Parser (Maybe HTTPMethod, URL, Maybe Protocol, ProtocolVersion)
-parseRequestLine = fmap (,,,)
-	    (quote *> parseHTTPMethod)
-	<*> (space *> parseURL)
-	<*> (space *> parseProtocol)
-	<*> (slash *> parseProtocolVersion <* quote)
-
-
-
-parseReferrer :: Parser (Maybe URL)
-parseReferrer = fmap refTest (quote *>takeTill (== '"') <* quote)
+parseQuotedValue :: Parser (Maybe B8.ByteString)
+parseQuotedValue = fmap refTest (quote *> takeTill (== '"') <* quote)
 	where refTest r = if (B8.length r == 0) then Nothing else Just r
-
-
-parseUserAgent :: Parser (Maybe B8.ByteString)
-parseUserAgent = do
-	_ <- quote
-	ua <- takeTill (== '"')
-	_ <- quote
-	let wrappedUA = if (B8.length ua == 0) then Nothing else Just ua
-	return wrappedUA
-
-
-

@@ -13,6 +13,7 @@ import Web.UAParser
 
 import Parse.DateTime
 import Parse.HTTP
+import Parse.Util
 import Utils (rights)
 import Types
 
@@ -43,19 +44,25 @@ expandUA ua = case ua of
 
 
 parseAsCommonLogLine :: Parser LogEntry
-parseAsCommonLogLine = fmap commonLogEntry
+parseAsCommonLogLine = fmap LogEntry
 		parseIP
 	<*> (space *> parseUserident)
 	<*> (space *> parseUserident)
 	<*> (space *> parseTimeAndDate)
-	<*> (space *> parseRequestLine)
+	<*> (space *> quote *> parseHTTPMethod)
+	<*> (space *> parseURL)
+	<*> (space *> parseProtocol)
+	<*> (slash *> parseProtocolVersion <* quote)
 	<*> (space *> parseHTTPStatus)
 	<*> (space *> parseByteSize)
-	where
-		commonLogEntry :: IP -> Maybe B8.ByteString -> Maybe B8.ByteString -> ZonedTime -> (Maybe HTTPMethod, URL, Maybe Protocol, ProtocolVersion) -> Maybe Int -> Int -> LogEntry
-		commonLogEntry a b c d (e, f, g, h) i j = LogEntry a b c d e f g h i j Nothing Nothing Nothing Nothing
+	<*> return Nothing
+	<*> return Nothing
+	<*> return Nothing
+	<*> return Nothing
 
 
+-- 216.74.39.38 - - [12/Jan/2015:20:37:55 +0000] 
+--"GET index.htm HTTP/1.0" 200 215 "http://www.example.com/start.html" "Mozilla/4.08 [en] (Win98; I ;Nav)"
 
 parseAsExtendedLogLine :: Parser LogEntry
 parseAsExtendedLogLine = fmap extendedLogEntry
@@ -63,15 +70,31 @@ parseAsExtendedLogLine = fmap extendedLogEntry
 	<*> (space *> parseUserident)
 	<*> (space *> parseUserident)
 	<*> (space *> parseTimeAndDate)
-	<*> (space *> parseRequestLine)
+	<*> (space *> quote *> parseHTTPMethod)
+	<*> (space *> parseURL)
+	<*> (space *> parseProtocol)
+	<*> (slash *> parseProtocolVersion <* quote)
 	<*> (space *> parseHTTPStatus)
 	<*> (space *> parseByteSize)
-	<*> (space *> parseReferrer)
-	<*> (space *> parseUserAgent)
+	<*> (space *> parseQuotedValue)
+	<*> (space *> parseQuotedValue)
 	where
-		extendedLogEntry :: IP -> Maybe B8.ByteString -> Maybe B8.ByteString -> ZonedTime -> (Maybe HTTPMethod, URL, Maybe Protocol, ProtocolVersion) -> Maybe Int -> Int -> Maybe B8.ByteString -> Maybe B8.ByteString -> LogEntry
-		extendedLogEntry a b c d (e, f, g, h) i j k l =
+		extendedLogEntry a b c d e f g h i j k l =
 			let (ua, os) = expandUA l
-			in LogEntry a b c d e f g h i j k l ua os
-
+			in LogEntry {
+				ip=a,
+				identity=b,
+				userid=c,
+				timestamp=d,
+				method=e,
+				url=f,
+				proto=g,
+				protoVer=h,
+				status=i,
+				byteSize=j,
+				referrer=k,
+				userAgent=l,
+				browser=ua,
+				platform=os
+			}
 

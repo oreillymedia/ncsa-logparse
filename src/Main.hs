@@ -3,11 +3,9 @@ import qualified Data.ByteString.Lazy as BL
 import Options.Applicative (execParser)
 import System.IO (hPutStrLn, stdout, stderr)
 
-import Analysis
 import Csv
 import CommandLineArgs
 import File
-import Parse.DateTime
 import Parse.Log
 import Types
 

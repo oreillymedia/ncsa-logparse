@@ -33,6 +33,10 @@ Test-Suite tests
                        strptime >= 1.0.10,
                        QuickCheck >= 2.7,
                        quickcheck-unicode,
+                       directory >= 1.2.3.0,
+                       split >= 0.2.2,
+                       text >= 1.2.1.1,
+                       stream-fusion >= 0.1.2.5,                       
                        scientific,
                        test-framework >= 0.8.0.2,
                        test-framework-quickcheck2 >= 0.3.0.3

@@ -38,6 +38,7 @@ data ProtocolVersion = ProtocolVersion {
 	minorVersion :: Int
 } deriving (Eq)
 
+
 instance Show ProtocolVersion where
 	show (ProtocolVersion major minor)
 									 = show major ++ "."
