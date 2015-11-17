@@ -26,14 +26,23 @@ import Types
 
 
 
-parseFileLines :: (Parser LogEntry) -> [BL.ByteString] -> Log
+parseFileLines' :: (Parser LogEntry) -> [BL.ByteString] -> Log
+parseFileLines' parser rawLogLines = rights $ map (parseFileLine' parser) rawLogLines
+
+
+parseFileLines :: (Parser LogEntry) -> [B.ByteString] -> Log
 parseFileLines parser rawLogLines = rights $ map (parseFileLine parser) rawLogLines
 
 
-parseFileLine :: (Parser LogEntry) -> BL.ByteString -> Either String LogEntry
-parseFileLine p logFileLine = ln >>= parseOnly p
+parseFileLine' :: (Parser LogEntry) -> BL.ByteString -> Either String LogEntry
+parseFileLine' p logFileLine = ln >>= parseOnly p
     where
         ln = (Right . B.concat . BL.toChunks) logFileLine
+
+
+parseFileLine :: (Parser LogEntry) -> B.ByteString -> Either String LogEntry
+parseFileLine p logFileLine = parseOnly p logFileLine
+
 
 
 -- | Parse and expand a given user agent string into its consitutent browser and platform data.
