@@ -2,11 +2,8 @@ module Utils where
 
 import Prelude hiding (filter, map)
 import Control.Monad (unless)
-import Data.Either (isRight)
 import Data.List (intercalate)
 import Data.List.Split
-import Data.List.Stream (filter, map)
-import Data.Maybe (fromJust, isJust)
 import Data.Time (ZonedTime)
 import Data.Time.Format (formatTime)
 import System.Directory (doesFileExist)
@@ -28,28 +25,4 @@ formatInteger = reverse . (intercalate ",") . (chunksOf 3) . reverse . show
 -- | Format zoned time as a string in ISO-8601 format.
 formatZonedTime :: ZonedTime -> String
 formatZonedTime = formatTime defaultTimeLocale "%FT%T%QZ"
-
-
-
-{--
-
-			Stream fusion-friendly versions of some common functions.
-
---}
-
-
-
--- | A stream fustion-friendly version of Data.Maybe.catMaybes
-catMaybes :: [Maybe a] -> [a]
-catMaybes ls = map fromJust (filter isJust ls)
-
-
-fromRight :: Either a b -> b
-fromRight (Right x) = x
-fromRight (Left _)  = error "No right value."
-
-
--- | A stream fustion-friendly version of Data.Either.rights
-rights :: [Either a b] -> [b]
-rights es = map fromRight (filter isRight es)
 

@@ -2,8 +2,6 @@
 
 module Csv where
 
-import Prelude hiding (map)
-
 import Control.DeepSeq
 import Control.DeepSeq.Generics (genericRnf)
 import Control.Parallel
@@ -11,7 +9,6 @@ import qualified Data.ByteString.Char8 as BC
 import qualified Data.ByteString.Lazy as BL
 import qualified Data.ByteString.Lazy.Char8 as BLC
 import Data.Csv
-import Data.List.Stream (map)
 import GHC.Generics
 
 import Types

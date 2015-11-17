@@ -8,12 +8,9 @@ import qualified Data.ByteString.Lazy.Char8 as BL8
 import System.Directory (doesFileExist)
 
 
-readLog :: FilePath -> IO [B.ByteString]
-readLog pth = verifyFilePath pth >> B.readFile pth >>= return . B8.lines
-
 -- | Read the file at the given path and return as a list of lazy bytestrings.
-readLog' :: FilePath -> IO [BL.ByteString]
-readLog' path = verifyFilePath path >> BL.readFile path  >>= return . BL8.lines
+readLog :: FilePath -> IO [BL.ByteString]
+readLog path = verifyFilePath path >> BL.readFile path  >>= return . BL8.lines
 
 
 -- |Check if the given path points to a real file. Stop execution and displays an error message if not.

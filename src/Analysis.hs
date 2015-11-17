@@ -1,7 +1,5 @@
 module Analysis where
 
-import Prelude hiding (filter, length, log, map, sum)
-import Data.List.Stream (filter, length, map, nub, sum)
 import qualified Data.Text as T
 import Web.UAParser
 

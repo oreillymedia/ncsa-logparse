@@ -1,20 +1,17 @@
 module Parse.Log where
 
-import Prelude hiding (map)
-
 import Control.Applicative
 import Data.Attoparsec.ByteString.Char8
 import qualified Data.ByteString as B
 import qualified Data.ByteString.Char8 as B8
 import qualified Data.ByteString.Lazy as BL
-import Data.List.Stream (map)
+import Data.Either (rights)
 import Data.Time (ZonedTime)
 import Web.UAParser
 
 import Parse.DateTime
 import Parse.HTTP
 import Parse.Util
-import Utils (rights)
 import Types
 
 
@@ -25,24 +22,14 @@ import Types
 --}
 
 
-
-parseFileLines' :: (Parser LogEntry) -> [BL.ByteString] -> Log
-parseFileLines' parser rawLogLines = rights $ map (parseFileLine' parser) rawLogLines
-
-
-parseFileLines :: (Parser LogEntry) -> [B.ByteString] -> Log
+parseFileLines :: (Parser LogEntry) -> [BL.ByteString] -> Log
 parseFileLines parser rawLogLines = rights $ map (parseFileLine parser) rawLogLines
 
 
-parseFileLine' :: (Parser LogEntry) -> BL.ByteString -> Either String LogEntry
-parseFileLine' p logFileLine = ln >>= parseOnly p
+parseFileLine :: (Parser LogEntry) -> BL.ByteString -> Either String LogEntry
+parseFileLine p logFileLine = ln >>= parseOnly p
     where
         ln = (Right . B.concat . BL.toChunks) logFileLine
-
-
-parseFileLine :: (Parser LogEntry) -> B.ByteString -> Either String LogEntry
-parseFileLine p logFileLine = parseOnly p logFileLine
-
 
 
 -- | Parse and expand a given user agent string into its consitutent browser and platform data.
