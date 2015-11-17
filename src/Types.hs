@@ -9,7 +9,10 @@ import Web.UAParser (OSResult, UAResult)
 
 
 -- |IP Address
-data IP = IP Word8 Word8 Word8 Word8 deriving (Eq)
+data IP = IP {-# UNPACK #-} !Word8
+             {-# UNPACK #-} !Word8
+             {-# UNPACK #-} !Word8
+             {-# UNPACK #-} !Word8 deriving (Eq)
 
 
 instance Show IP where
@@ -34,8 +37,8 @@ data Protocol = HTTP | HTTPS | FTP deriving (Show, Eq)
 
 -- |Protocol version representation
 data ProtocolVersion = ProtocolVersion {
-	majorVersion :: Int,
-	minorVersion :: Int
+	majorVersion :: {-# UNPACK #-} !Int,
+	minorVersion :: {-# UNPACK #-} !Int
 } deriving (Eq)
 
 
