@@ -6,7 +6,6 @@ import qualified Data.ByteString.Lazy.Char8 as BL8
 import System.Directory (doesFileExist)
 
 
-
 -- | Read the file at the given path and return as a list of lazy bytestrings.
 readLog :: FilePath -> IO [BL.ByteString]
 readLog path = verifyFilePath path >> BL.readFile path  >>= return . BL8.lines

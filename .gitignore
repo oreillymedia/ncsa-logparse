@@ -15,3 +15,4 @@ cabal.sandbox.config
 *.hp
 *.ps
 .stack-work/
+.idea/*
