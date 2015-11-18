@@ -41,5 +41,5 @@ This project builds an executable called ``ncsa-logparse`` that will be located 
 Testing
 ^^^^^^^
 
-The project includes a test suite. The command ```cabal test`` will run the suite and output the results.
+The project includes a test suite. The command ``cabal test`` will run the suite and output the results.
 
