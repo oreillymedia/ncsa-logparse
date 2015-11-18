@@ -433,7 +433,7 @@ If we compile this code and run it we notice two things.
 Firstly, it's pretty fast. For an NCSA common log file of 1,400,800 lines, it takes around 4 seconds to finish. Let's compare this to a simple bash one-liner using awk:
 
 ~~~shell
-awk 'BEGIN { FS = " " } ; { sum += $1; } END { print sum; }' "$@" < ~/logs/access.log 
+awk 'BEGIN { FS = " " } ; { sum += $10; } END { print sum; }' "$@" < ~/logs/access.log 
 ~~~
 
 That also takes around 4 seconds, so we've managed to be as fast as awk, which is pretty good for a first try. (Of course if all you're doing is summing up the number of bytes in a log file, you're better off sticking with awk in the first place.)
