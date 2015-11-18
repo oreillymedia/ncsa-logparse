@@ -324,7 +324,7 @@ data ProtocolVersion = ProtocolVersion {
  
 ## Reading a log file
 
-At this point need to build a pipeline that goes from a file path for an existing log file all the way to a value of the type `Log`. The reference implementation builds a command-line tool that takes a file path as it's input, however command-line argument parsing is beyond the scope of this post. Let's assume a hard-coded file path for simplicity's sake: `~/logs/access.log`
+At this point we need to build a pipeline that goes from a file path for an existing log file all the way to a value of the type `Log`. The reference implementation builds a command-line tool that takes a file path as it's input, however command-line argument parsing is beyond the scope of this post. Let's assume a hard-coded file path for simplicity's sake: `~/logs/access.log`
 
 So what we want is a function that satisfies this type signature:
 
