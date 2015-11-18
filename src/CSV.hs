@@ -2,9 +2,6 @@
 
 module Csv where
 
-import Control.DeepSeq
-import Control.DeepSeq.Generics (genericRnf)
-import Control.Parallel
 import qualified Data.ByteString.Char8 as BC
 import qualified Data.ByteString.Lazy as BL
 import qualified Data.ByteString.Lazy.Char8 as BLC
@@ -31,7 +28,6 @@ data CSVLine = CSVLine {
 } deriving (Show, Generic)
 
 instance ToRecord CSVLine
-instance NFData   CSVLine where rnf = genericRnf
 
 
 maybeShowByteString :: Show a => Maybe a -> Maybe BC.ByteString
