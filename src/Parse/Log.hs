@@ -27,9 +27,9 @@ parseFileLines parser rawLogLines = rights $ map (parseFileLine parser) rawLogLi
 
 
 parseFileLine :: (Parser LogEntry) -> BL.ByteString -> Either String LogEntry
-parseFileLine p logFileLine = ln >>= parseOnly p
+parseFileLine p logFileLine = parseOnly p ln
     where
-        ln = (Right . B.concat . BL.toChunks) logFileLine
+        ln = (B.concat . BL.toChunks) logFileLine
 
 
 -- | Parse and expand a given user agent string into its consitutent browser and platform data.

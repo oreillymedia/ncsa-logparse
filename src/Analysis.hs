@@ -1,11 +1,11 @@
 module Analysis where
 
+import Data.List (nub)
+import Data.Maybe (catMaybes)
 import qualified Data.Text as T
 import Web.UAParser
 
 import Types
-import Utils (catMaybes)
-
 
 
 -- | Return the total number of bytes sent by the server in a log file.
