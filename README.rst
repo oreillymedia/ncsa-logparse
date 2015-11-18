@@ -22,6 +22,8 @@ Ubuntu
 #. `Install the linux <http://new-www.haskell.org/downloads/linux>`_ GHC and Cabal
 #. Install the PCRE library: ``?> sudo apt-get install libpcre3-dev``
 
+Sandbox Setup
+^^^^^^^^^^^^^
 
 Once these platform-specific steps are done, you can use `cabal <https://www.haskell.org/cabal/>`_, Haskell's package management and build system to do the rest. Run cabal commands from the root directory of the project after you clone it from GitHub. Begin by installing the project's dependencies and setting up a `cabal sandbox <http://coldwa.st/e/blog/2013-08-20-Cabal-sandbox.html>`_::
 
@@ -39,5 +41,5 @@ This project builds an executable called ``ncsa-logparse`` that will be located 
 Testing
 ^^^^^^^
 
-The project includes a test suite. The command `cabal test` will run the suite and output the results.
+The project includes a test suite. The command ```cabal test`` will run the suite and output the results.
 
