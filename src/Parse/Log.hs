@@ -32,7 +32,7 @@ parseFileLine p logFileLine = parseOnly p ln
         ln = (B.concat . BL.toChunks) logFileLine
 
 
--- | Parse and expand a given user agent string into its consitutent browser and platform data.
+-- | Parse and expand a given user agent string into its constituent browser and platform data.
 expandUA :: Maybe B8.ByteString -> (Maybe UAResult, Maybe OSResult)
 expandUA ua = case ua of
     Nothing    -> (Nothing, Nothing)
