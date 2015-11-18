@@ -3,7 +3,7 @@ import qualified Data.ByteString.Lazy as BL
 import Options.Applicative (execParser)
 import System.IO (hPutStrLn, stdout, stderr)
 
-import Csv
+import CSV
 import CommandLineArgs
 import File
 import Parse.Log

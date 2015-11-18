@@ -1,10 +1,9 @@
 {-# LANGUAGE DeriveGeneric #-}
 
-module Csv where
+module CSV where
 
 import qualified Data.ByteString.Char8 as BC
 import qualified Data.ByteString.Lazy as BL
-import qualified Data.ByteString.Lazy.Char8 as BLC
 import Data.Csv
 import GHC.Generics
 

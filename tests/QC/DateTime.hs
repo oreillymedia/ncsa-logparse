@@ -5,6 +5,7 @@ import Data.Attoparsec.ByteString.Char8
 import qualified Data.ByteString as B
 import Data.Time.LocalTime (minutesToTimeZone)
 import System.Locale (defaultTimeLocale, months)
+import Test.Framework
 import Test.Framework.Providers.QuickCheck2 (testProperty)
 import Test.QuickCheck
 
@@ -12,6 +13,7 @@ import Parse.DateTime
 import Types
 
 
+tests :: [Test]
 tests = [
       testProperty "propTZParse" propTZParse
     , testProperty "propMonthMap" propMonthMap

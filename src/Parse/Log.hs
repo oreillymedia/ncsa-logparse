@@ -6,7 +6,6 @@ import qualified Data.ByteString as B
 import qualified Data.ByteString.Char8 as B8
 import qualified Data.ByteString.Lazy as BL
 import Data.Either (rights)
-import Data.Time (ZonedTime)
 import Web.UAParser
 
 import Parse.DateTime

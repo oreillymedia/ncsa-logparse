@@ -2,13 +2,10 @@ module QC.Integration (tests) where
 
 import Data.Either
 import Data.Attoparsec.ByteString.Char8
-import qualified Data.ByteString as B
-import Data.Either
 import Data.Time
-import Data.Time.LocalTime (minutesToTimeZone, utc)
 import System.Locale (defaultTimeLocale, months)
+import Test.Framework
 import Test.Framework.Providers.QuickCheck2 (testProperty)
-import Test.QuickCheck
 import Web.UAParser
 
 import Parse.Log
@@ -16,10 +13,9 @@ import Types
 import qualified Utils as U
 
 
+tests :: [Test]
 tests = [ testProperty "parse common log" testCommonLogParser
         , testProperty "parse extended log" testExtendedLogParser]
-
-
 
 
 zt = ZonedTime {
