@@ -67,7 +67,7 @@ parseIP = fmap IP
 	<*> (decimal <* period)
 	<*> decimal
 ~~~
-These functions use two attoparsec parsers: [``decimal``](https://hackage.haskell.org/package/attoparsec-0.13.0.1/docs/Data-Attoparsec-Text.html#v:decimal) and [``char ``](https://hackage.haskell.org/package/attoparsec-0.13.0.1/docs/Data-Attoparsec-ByteString-Char8.html#v:char) to handle parsing an IP address. We begin by defining a utility function that we will end up using in a number of places. Sometimes we need to create a parser that will consume a single predefined character that we expect to encounter in a log line. Let's say we wanted one parser for a dash and one for a period. Attoparsec provides a useful function, `char` that will match a single specific character and fail on any other input:
+These functions use two attoparsec parsers, [``decimal``](https://hackage.haskell.org/package/attoparsec-0.13.0.1/docs/Data-Attoparsec-Text.html#v:decimal) and [``char ``](https://hackage.haskell.org/package/attoparsec-0.13.0.1/docs/Data-Attoparsec-ByteString-Char8.html#v:char), to handle parsing an IP address. We begin by defining a utility function that we will end up using in a number of places. Sometimes we need to create a parser that will consume a single predefined character that we expect to encounter in a log line. Let's say we wanted one parser for a dash and one for a period. Attoparsec provides a useful function, `char`, that will match a single specific character and fail on any other input:
 
 ~~~Haskell
 period = char '.'
@@ -195,9 +195,9 @@ parseMonthName = monthNameToNumber <$> count 3 letter_ascii >>= checkMonth
  
 We count three ASCII characters from the input, apply ``monthNameToNumber`` to it and then pass that ``Maybe`` to a function that returns a ``fail`` if it got ``Nothing`` and ``Int`` if it got ``Just Int``. 
 
-Notice how we keep the pure part of the operation—the transformation of ``"Oct"`` to ``10``—in it's own function and the monadic parts—parsing the string and [failing](http://hackage.haskell.org/package/base-4.8.1.0/docs/Prelude.html#v:fail) on an invalid month value—in their own function context. This makes testing much easier.
+Notice how we keep the pure part of the operation—the transformation of ``"Oct"`` to ``10``—in its own function and the monadic parts—parsing the string and [failing](http://hackage.haskell.org/package/base-4.8.1.0/docs/Prelude.html#v:fail) on an invalid month value—in their own function context. This makes testing much easier.
 
-Fortunately time zone parsing is simpler. A timezone should be prepended by an optional "-" or "+" and either 2 or 4 characters. Here are some examples:
+Fortunately time zone parsing is simpler. A timezone should be prepended by an optional "-" or "+" and have either 2 or 4 characters. Here are some examples:
 
 * ``"07"``: 7 hours ahead of GMT
 * ``"-07"``: 7 hours behind GMT
@@ -212,7 +212,7 @@ parseTZ = minutesToTimeZone <$> signed parseTZDigits
 	where parseTZDigits = liftA2 (+) ((* 60) <$> parseDigits 2) (parseDigits 2 <|> return 0)
 ~~~
 
-We parse 2 digits, which represents our hours offset, then attempt to parse 2 more digits. If the parser encounters something other than a number for the second set, we assume that we're dealing with a two-digit and not a four-digit offset, and represent our minutes as ``0``. We multiply our hours value by ``60`` to convert to minutes, then add that to the minutes position. This gives us the total offset minutes, and we can apply [``minutesToTimeZone``](https://hackage.haskell.org/package/time-1.5.0.1/docs/Data-Time-LocalTime.html#v:minutesToTimeZone) to that to get a ``TimeZone`` object.
+We parse 2 digits, which represents our hours offset, then attempt to parse 2 more digits. If the parser encounters something other than a number for the second set, we assume that we're dealing with a two-digit and not a four-digit offset, and represent our minutes as ``0``. We multiply our hours value by ``60`` to convert to minutes, then add that to the minutes position. This gives us the total offset in minutes, and we can apply [``minutesToTimeZone``](https://hackage.haskell.org/package/time-1.5.0.1/docs/Data-Time-LocalTime.html#v:minutesToTimeZone) to that to get a ``TimeZone`` object.
 
 The `parseDigits` function referenced above is a useful utility that can be used in several places in our log parser. It looks like this:
 
@@ -262,7 +262,7 @@ From a parsing standpoint, the timestamp is our most difficult challenge. Theref
 Putting It All Together
 =======================
 
-Now that we have walked through parsing four types of data from a log file (ranging from simple to complex) and provided an [implementation of the remainder](https://github.com/mazelife/ncsa-logparse) of the remainder, we can being assembling this into a program that parses a whole log file.
+Now that we have walked through parsing four types of data from a log file (ranging from simple to complex) and provided an [implementation of the remainder](https://github.com/mazelife/ncsa-logparse) of the remainder, we can assemble this into a program that parses a whole log file.
 
 Let's begin by defining a data type to represent a parsed log line.
 
@@ -310,7 +310,7 @@ data ProtocolVersion = ProtocolVersion {
  type URL = BC.ByteString
  ~~~
  
- For parsing the user agent string, we've turned to an existing Haskell library called [ua-parser](https://hackage.haskell.org/package/ua-parser) which includes a pair domain-specific types of it's own that model the family and major, minor, and patch versions of both the browser and operating system.
+ For parsing the user agent string, we've turned to an existing Haskell library called [ua-parser](https://hackage.haskell.org/package/ua-parser) which includes a pair domain-specific types of its own that model the family and major, minor, and patch versions of both the browser and operating system.
  
  Based on the specifications for an NCSA log file, some information is not guaranteed to be present, including the user identity, referrer, and user agent. In cases like these, we use the [`Maybe`](https://hackage.haskell.org/package/base-4.8.1.0/docs/Data-Maybe.html) type to encapsulate an optional value.
  
@@ -324,7 +324,7 @@ data ProtocolVersion = ProtocolVersion {
  
 ## Reading a log file
 
-At this point we need to build a pipeline that goes from a file path for an existing log file all the way to a value of the type `Log`. The reference implementation builds a command-line tool that takes a file path as it's input, however command-line argument parsing is beyond the scope of this post. Let's assume a hard-coded file path for simplicity's sake: `~/logs/access.log`
+At this point we need to build a pipeline that goes from a file path for an existing log file all the way to a value of the type `Log`. The reference implementation builds a command-line tool that takes a file path as its input; however, command-line argument parsing is beyond the scope of this post. Let's assume a hard-coded file path for simplicity's sake: `~/logs/access.log`
 
 So what we want is a function that satisfies this type signature:
 
@@ -387,7 +387,7 @@ parseFileLine :: B.ByteString -> Either String LogEntry
 parseFileLine = parseOnly parseAsCommonLogLine
 ~~~
 
-``parseOnly`` takes two arguments: a parser and a ``ByteString``. Haskell is perfectly comfortable with [partial application](https://wiki.haskell.org/Partial_application). We can apply a function to one of it's arguments and that will give us a new function that just takes the remaining arguments.
+``parseOnly`` takes two arguments: a parser and a ``ByteString``. Haskell is perfectly comfortable with [partial application](https://wiki.haskell.org/Partial_application). We can apply a function to one of its arguments and that will give us a new function that just takes the remaining arguments.
 
 Now let's write a function that takes a list of lines from the log file and returns a fully parsed `Log`.
 
