@@ -2,7 +2,7 @@
 NCSA Logparser
 ===============
 
-This implementation of an NCSA Common and NCSA Combined log file parser is intended to accompany the Safari Books Online blog series *High-performance Log Parsing in Haskell* (`part 1 <https://www.safaribooksonline.com/blog/2015/03/30/high-performance-log-parsing-in-haskell-part-one/>`_ and `part 2 <https://www.safaribooksonline.com/blog/2015/12/10/high-performance-log-parsing-in-haskell-part-two>`_).
+This implementation of an NCSA Common and NCSA Combined log file parser is intended to accompany the Safari Books Online blog series *High-performance Log Parsing in Haskell* (`part 1 <https://www.safaribooksonline.com/blog/2015/03/30/high-performance-log-parsing-in-haskell-part-one/>`_ and `part 2 <https://www.safaribooksonline.com/blog/2015/12/14/high-performance-log-parsing-in-haskell-part-two/>`_).
 
 This code is provided under a `BSD3 open source license <https://en.wikipedia.org/wiki/BSD_licenses#3-clause_license_.28.22Revised_BSD_License.22.2C_.22New_BSD_License.22.2C_or_.22Modified_BSD_License.22.29>`_ and forking and modifying of this library to suit your purposes is encouraged.
 
