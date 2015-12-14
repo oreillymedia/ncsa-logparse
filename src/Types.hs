@@ -16,11 +16,11 @@ data IP = IP {-# UNPACK #-} !Word8
 
 
 instance Show IP where
-	show (IP b1 b2 b3 b4)
-						= show b1 ++ "."
-					   ++ show b2 ++ "."
-					   ++ show b3 ++ "."
-					   ++ show b4
+    show (IP b1 b2 b3 b4)
+                        = show b1 ++ "."
+                       ++ show b2 ++ "."
+                       ++ show b3 ++ "."
+                       ++ show b4
 
 
 -- |Type synonym
@@ -37,34 +37,34 @@ data Protocol = HTTP | HTTPS | FTP deriving (Show, Eq)
 
 -- |Protocol version representation
 data ProtocolVersion = ProtocolVersion {
-	majorVersion :: {-# UNPACK #-} !Int,
-	minorVersion :: {-# UNPACK #-} !Int
+    majorVersion :: {-# UNPACK #-} !Int,
+    minorVersion :: {-# UNPACK #-} !Int
 } deriving (Eq)
 
 
 instance Show ProtocolVersion where
-	show (ProtocolVersion major minor)
-									 = show major ++ "."
-									++ show minor
+    show (ProtocolVersion major minor)
+                                     = show major ++ "."
+                                    ++ show minor
 
 
 
 -- |A single log line from an NCSA Common or Extended-formatted log
 data LogEntry = LogEntry {
-	ip 		   :: IP,
-	identity   :: Maybe BC.ByteString,
-	userid     :: Maybe BC.ByteString,
-	timestamp  :: ZonedTime,
-	method     :: Maybe HTTPMethod,
-	url        :: URL,
-	proto      :: Maybe Protocol,
-	protoVer   :: ProtocolVersion,
-	status     :: Maybe Int,
-	byteSize   :: Int,
-	referrer   :: Maybe URL,
-	userAgent  :: Maybe BC.ByteString,
-	browser    :: Maybe UAResult,
-	platform   :: Maybe OSResult
+    ip         :: IP,
+    identity   :: Maybe BC.ByteString,
+    userid     :: Maybe BC.ByteString,
+    timestamp  :: ZonedTime,
+    method     :: Maybe HTTPMethod,
+    url        :: URL,
+    proto      :: Maybe Protocol,
+    protoVer   :: ProtocolVersion,
+    status     :: Maybe Int,
+    byteSize   :: Int,
+    referrer   :: Maybe URL,
+    userAgent  :: Maybe BC.ByteString,
+    browser    :: Maybe UAResult,
+    platform   :: Maybe OSResult
 } deriving (Show)
 
 
