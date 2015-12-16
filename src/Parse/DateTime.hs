@@ -4,6 +4,7 @@ import Control.Applicative
 import Data.Attoparsec.ByteString.Char8
 import qualified Data.Map as Map
 import Data.Char (toLower)
+import Data.Fixed
 import Data.Time
 import System.Locale (defaultTimeLocale, months)
 
@@ -14,23 +15,23 @@ import Parse.Util
 parseTimeAndDate :: Parser ZonedTime
 parseTimeAndDate = do
 	_  <- char '['
-	d  <- parseDigits 2
+	d  <- parseInt 2
 	_  <- slash
 	mm <- parseMonthName
 	_  <- slash
-	y  <- parseDigits 4
+	y  <- parseInteger 4
 	_  <- char ':'
-	h  <- parseDigits 2
+	h  <- parseInt 2
 	_  <- char ':'
-	m  <- parseDigits 2
+	m  <- parseInt 2
 	_  <- char ':'
-	s  <- parseDigits 2
+	s  <- parseInteger 2
 	_  <- char ' '
 	tz <- parseTZ
 	_  <- char ']'
 	let localTime = LocalTime {
 				localDay = fromGregorian y mm d,
-				localTimeOfDay = TimeOfDay h m s
+				localTimeOfDay = TimeOfDay h m (MkFixed s)
 
 			}
 	return ZonedTime {
@@ -43,7 +44,7 @@ parseTimeAndDate = do
 -- FIXME: Add some sanity checking to make sure the offset isn't too big to be real: (-12:00 ≤ offset ≤ +14:00)
 parseTZ :: Parser TimeZone
 parseTZ = minutesToTimeZone <$> signed parseTZDigits
-	where parseTZDigits = liftA2 (+) ((* 60) <$> parseDigits 2) (parseDigits 2 <|> return 0)
+	where parseTZDigits = liftA2 (+) ((* 60) <$> parseInt 2) (parseInt 2 <|> return 0)
 
 
 -- | A map from three-letter month names (case insensitive) to their numeric representation (e.g. "Jun" -> 6)

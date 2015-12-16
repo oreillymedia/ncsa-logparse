@@ -1,13 +1,9 @@
 module QC.DateFormatter (tests) where
 
-import Data.Either
-import Data.Attoparsec.ByteString.Char8
-import qualified Data.ByteString as B
 import Data.Time
 
 import Test.Framework
 import Test.Framework.Providers.QuickCheck2 (testProperty)
-import Test.QuickCheck
 
 import DateFormatter
 
