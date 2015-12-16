@@ -14,8 +14,8 @@ import Types
 
 
 tests :: [Test]
-tests = [ testProperty "parse common log" testCommonLogParser
-        , testProperty "parse extended log" testExtendedLogParser]
+tests = [ testProperty "Test parsing of common log format" testCommonLogParser
+        , testProperty "Test parsing of extended log format" testExtendedLogParser]
 
 
 zt = ZonedTime {

@@ -31,7 +31,7 @@ parseTimeAndDate = do
 	_  <- char ']'
 	let localTime = LocalTime {
 				localDay = fromGregorian y mm d,
-				localTimeOfDay = TimeOfDay h m (MkFixed s)
+				localTimeOfDay = TimeOfDay h m ((fromInteger s) :: Pico)
 
 			}
 	return ZonedTime {
