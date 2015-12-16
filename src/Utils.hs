@@ -12,8 +12,3 @@ import System.Locale (defaultTimeLocale)
 formatInteger :: Int -> String
 formatInteger = reverse . (intercalate ",") . (chunksOf 3) . reverse . show
 
-
--- | Format zoned time as a string in ISO-8601 format.
-formatZonedTime :: ZonedTime -> String
-formatZonedTime = formatTime defaultTimeLocale "%FT%T%QZ"
-

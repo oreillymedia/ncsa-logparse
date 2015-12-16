@@ -7,8 +7,8 @@ import qualified Data.ByteString.Lazy as BL
 import Data.Csv
 import GHC.Generics
 
+import DateFormatter (formatZonedTime)
 import Types
-import Utils (formatZonedTime)
 
 
 data CSVLine = CSVLine {
@@ -40,7 +40,7 @@ toCsvLine lg = CSVLine _ip _ident _userid _ts _method _url _proto _protoV _statu
         _ip     = (BC.pack . show . ip) lg
         _ident  = identity lg
         _userid = userid lg
-        _ts     = (BC.pack . formatZonedTime . timestamp) lg
+        _ts     = (formatZonedTime . timestamp) lg
         _method = maybeShowByteString $ method lg
         _url    = url lg
         _proto  = maybeShowByteString $ proto lg
