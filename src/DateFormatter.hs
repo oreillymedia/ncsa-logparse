@@ -4,7 +4,6 @@ module DateFormatter (formatZonedTime) where
 
 import qualified Data.ByteString.Char8 as B8
 import Data.ByteString.Internal
-import Data.Time (ZonedTime)
 import Data.Time.Calendar
 import Data.Time.LocalTime
 import Data.Word

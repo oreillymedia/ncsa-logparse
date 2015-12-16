@@ -7,10 +7,8 @@ import Data.Time.LocalTime (minutesToTimeZone)
 import System.Locale (defaultTimeLocale, months)
 import Test.Framework
 import Test.Framework.Providers.QuickCheck2 (testProperty)
-import Test.QuickCheck
 
 import Parse.DateTime
-import Types
 
 
 tests :: [Test]

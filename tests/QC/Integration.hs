@@ -8,9 +8,9 @@ import Test.Framework
 import Test.Framework.Providers.QuickCheck2 (testProperty)
 import Web.UAParser
 
+import DateFormatter (formatZonedTime)
 import Parse.Log
 import Types
-import qualified Utils as U
 
 
 tests :: [Test]
@@ -95,7 +95,7 @@ compareLogEntries expected actual = all (== True) results
     where results =   [ ip actual == ip expected
                       , identity actual == identity expected
                       , userid actual == userid expected
-                      , (U.formatZonedTime $ timestamp actual) == (U.formatZonedTime $ timestamp expected)
+                      , (formatZonedTime $ timestamp actual) == (formatZonedTime $ timestamp expected)
                       , method actual == method expected
                       , url actual == url expected
                       , proto actual == proto expected
